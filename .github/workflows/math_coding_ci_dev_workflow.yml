@@ -8,7 +8,7 @@ on:
         description: "Execution Environment"
         required: true
         default: "dev"
-      flow_type:
+      use_case_base_path:
         type: string
         description: "The flow usecase to execute"
         required: true
@@ -22,9 +22,9 @@ on:
       - main
       - development
     paths:
+      - 'math_coding/**'
       - '.github/**'
       - 'llmops/**'
-      - 'math_coding/**'
 
 #=====================================
 # Execute platform_ci_dev_workflow workflow for experiment, evaluation and deployment of flows
@@ -34,9 +34,9 @@ jobs:
     uses: ./.github/workflows/platform_ci_dev_workflow.yml
     with:
       env_name: ${{ inputs.env_name || 'dev'}}
-      flow_type: ${{ inputs.flow_type || 'math_coding' }}
+      use_case_base_path: ${{ inputs.use_case_base_path || 'math_coding' }}
       deployment_type: ${{ inputs.deployment_type|| 'aml' }}
     secrets:
       azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
-      connection_details: ${{ secrets.COMMON_DEV_CONNECTIONS }}
       registry_details: ${{ secrets.DOCKER_IMAGE_REGISTRY }}
+      env_vars: ${{ secrets.ENV_VARS }}
